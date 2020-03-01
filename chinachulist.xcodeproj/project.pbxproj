@@ -13,6 +13,8 @@
 		00C743B5240BA79C00681912 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00C743B4240BA79C00681912 /* Assets.xcassets */; };
 		00C743B8240BA79C00681912 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00C743B7240BA79C00681912 /* Preview Assets.xcassets */; };
 		00C743BB240BA79C00681912 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C743B9240BA79C00681912 /* LaunchScreen.storyboard */; };
+		00C743C3240BD94200681912 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C743C2240BD94200681912 /* Channel.swift */; };
+		00C743C5240BD98A00681912 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C743C4240BD98A00681912 /* Program.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		00C743B7240BA79C00681912 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		00C743BA240BA79C00681912 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00C743BC240BA79C00681912 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00C743C2240BD94200681912 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		00C743C4240BD98A00681912 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				00C743AE240BA79B00681912 /* AppDelegate.swift */,
 				00C743B0240BA79B00681912 /* SceneDelegate.swift */,
 				00C743B2240BA79B00681912 /* ContentView.swift */,
+				00C743C4240BD98A00681912 /* Program.swift */,
+				00C743C2240BD94200681912 /* Channel.swift */,
 				00C743B4240BA79C00681912 /* Assets.xcassets */,
 				00C743B9240BA79C00681912 /* LaunchScreen.storyboard */,
 				00C743BC240BA79C00681912 /* Info.plist */,
@@ -146,7 +152,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C743C5240BD98A00681912 /* Program.swift in Sources */,
 				00C743AF240BA79B00681912 /* AppDelegate.swift in Sources */,
+				00C743C3240BD94200681912 /* Channel.swift in Sources */,
 				00C743B1240BA79B00681912 /* SceneDelegate.swift in Sources */,
 				00C743B3240BA79B00681912 /* ContentView.swift in Sources */,
 			);
