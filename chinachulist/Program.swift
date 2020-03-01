@@ -18,16 +18,29 @@ struct ProgramDetailView: View {
 
     var channel: Channel
     var program: Program
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                Text("\(Self.programDateFormatter.string(from: program.start)) - \(Self.programDateFormatter.string(from: program.end))")
+                Text(program.fullTitle)
+                    .font(.subheadline)
+                HStack(spacing: 2) {
+                    Text(program.category.rawValue)
+                        .font(.caption)
+                    if (program.episode != nil) {
+                        Text("・")
+                            .font(.caption)
+                        Text("episode #\(program.episode!)")
+                            .font(.caption)
+                    }
+                }
+                Text("\(Self.programDateFormatter.string(from: program.start)) — \(Self.programDateFormatter.string(from: program.end))")
                     .font(.caption)
+                    .foregroundColor(Color.gray)
                 Text(program.detail)
                     .font(.body)
 
-                if (program.isInLiveNow) {
+                if (program.isOnLiveNow) {
                     Button(
                         action: { openStreamingInVLC(channelId: self.channel.id) },
                         label: {
@@ -53,7 +66,17 @@ struct ProgramDetailView_Preview: PreviewProvider {
                 id: "aa", name: "Preview Channel", programs: []
             ),
             program: Program(
-                id: "bb", title: "Some Program", start: Date() - 180, end: Date() + 180, seconds: 180, detail: "lorem ipsum ~~"
+                id: "bb",
+                title: "Some Program",
+                fullTitle: "Some Full Title [a]",
+                subTitle: "subTitle",
+                start: Date() - 180,
+                end: Date() + 180,
+                seconds: 180,
+                detail: "lorem ipsum ~~",
+                flags: [],
+                episode: 3,
+                category: .news
             )
         )
 //        ProgramDetailView(

@@ -21,7 +21,7 @@ struct Channel: Decodable, Identifiable {
     }
     
     var currentProgram: Program? {
-        return programs.first(where: { $0.isInLiveNow })
+        return programs.first(where: { $0.isOnLiveNow })
     }
     
     var programsInStartOrder: [Program] {
@@ -38,24 +38,56 @@ struct Channel: Decodable, Identifiable {
     }
 }
 
+enum ProgramCategory: String, Decodable {
+    case anime = "anime"
+    case information = "information"
+    case news = "news"
+    case sports = "sports"
+    case variety = "variety"
+    case drama = "drama"
+    case music = "music"
+    case cinema = "cinema"
+    case etc = "etc"
+    case hobby = "hobby"
+    case welfare = "welfare"
+    case theater = "theater"
+    case documentary = "documentary"
+}
+
 struct Program: Decodable, Identifiable {
     public var id: String
+    
     public var title: String
+    public var fullTitle: String
+    public var subTitle: String?
+    
     public var start: Date
     public var end: Date
     public var seconds: Int
+    
     public var detail: String
+    public var flags: [String]
+    public var episode: Int?
+    public var category: ProgramCategory
         
     enum CodingKeys: String, CodingKey {
         case id = "id"
+        
         case title = "title"
+        case fullTitle = "fullTitle"
+        case subTitle = "subTitle"
+        
         case start = "start"
         case end = "end"
         case seconds = "seconds"
+        
         case detail = "detail"
+        case flags = "flags"
+        case episode = "episode"
+        case category = "category"
     }
     
-    var isInLiveNow: Bool {
+    var isOnLiveNow: Bool {
         let now = Date()
         return start <= now && now < end;
     }

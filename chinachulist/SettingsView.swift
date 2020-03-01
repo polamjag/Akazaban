@@ -32,6 +32,11 @@ struct SettingsView: View {
                     }
                 }
             }
+            .navigationBarItems(trailing:
+                Button("Close") {
+                    self.showModal.toggle()
+                }
+            )
             .navigationBarTitle("Settings")
         }
     }
