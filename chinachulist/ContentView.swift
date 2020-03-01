@@ -8,50 +8,9 @@
 
 import SwiftUI
 
-public class ScheduleFetcher: ObservableObject {
-    @Published var channels = [Channel]()
-    
-    init() {
-        load()
-    }
-    
-    func load() {
-        let url = URL(string: "http://akari:bakuhatsu@raspberrypi.local:10773/api/schedule.json")!
-        
-        URLSession.shared.dataTask(with: url) {(data, response, error) in
-            do {
-                if let d = data {
-                    let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .millisecondsSince1970
-                    let decodedLists = try decoder.decode([Channel].self, from: d)
-                    DispatchQueue.main.async {
-                        self.channels = decodedLists
-                    }
-                } else {
-                    print("No Data")
-                }
-            } catch {
-                print ("Error")
-            }
-            
-        }.resume()
-
-    }
-}
-
-func openStreamingInVLC(channelId: String) {
-    var components = URLComponents()
-    components.scheme = "vlc-x-callback"
-    components.host = "x-callback-url"
-    components.path = "/stream"
-    components.queryItems = [
-        URLQueryItem(name: "url", value: "http://akari:bakuhatsu@raspberrypi.local:10772/api/channel/\(channelId)/watch.m2ts?ext=m2ts&amp;c%3Av=copy&amp;c%3Aa=copy&amp;prefix=http%3A%2F%2Fraspberrypi.local%3A10772%2Fapi%2Fchannel%2F\(channelId)%2F")
-    ]
-    UIApplication.shared.open(components.url!)
-}
-
 struct ContentView: View {
     @ObservedObject var fetcher = ScheduleFetcher()
+    @State private var showModal = false
     
     var body: some View {
         NavigationView {
@@ -69,10 +28,69 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationBarItems(trailing:
+                Button(
+                    action: { self.showModal.toggle() },
+                    label: { Image(systemName: "gear") }
+                ).sheet(isPresented: $showModal) {
+                    ModalView(showModal: self.$showModal)
+                }
+            )
             .navigationBarTitle("chinachu")
         }
     }
 
+}
+
+struct ModalView: View {
+    @Binding var showModal: Bool
+    
+    var body: some View {
+        NavigationView {
+            List {
+                Section(header: Text("Logs")) {
+                    NavigationLink(destination: ChinachuLogView(logType: .logTypeWui)) {
+                        VStack {
+                            Text("wui")
+                        }
+                    }
+                    NavigationLink(destination: ChinachuLogView(logType: .logTypeOperator)) {
+                        VStack {
+                            Text("operator")
+                        }
+                    }
+                    NavigationLink(destination: ChinachuLogView(logType: .logTypeScheduler)) {
+                        VStack {
+                            Text("scheduler")
+                        }
+                    }
+                }
+            }
+            .navigationBarTitle("Settings")
+        }
+    }
+}
+
+struct ChinachuLogView: View {
+    @ObservedObject var logFetcher = LogFetcher()
+    var logType: ChinachuLogType
+    
+    var body: some View {
+        ScrollView {
+            Text(logFetcher.log)
+                .font(.custom("Menlo", size: 12.0))
+                .padding()
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+        }.onAppear {
+            self.logFetcher.get(logType: self.logType)
+        }
+    }
+}
+
+struct ModalView_Previews: PreviewProvider {
+    static var previews: some View {
+        ModalView(showModal: .constant(true))
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

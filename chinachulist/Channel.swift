@@ -8,35 +8,6 @@
 
 import SwiftUI
 
-struct Channel: Decodable, Identifiable {
-    public var id: String
-    public var name: String
-    public var programs: [Program]
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case name = "name"
-        case programs = "programs"
-    }
-    
-    var currentProgram: Program? {
-        return programs.first(where: { $0.isInLiveNow })
-    }
-    
-    var programsInStartOrder: [Program] {
-        return programs.sorted(by: { $0.start < $1.start })
-    }
-    
-    var programsByDate: [(date: String, programs: [Program])] {
-        let f = DateFormatter()
-        f.dateFormat = "YYYY-MM-dd"
-        let dic = Dictionary(grouping: programsInStartOrder, by: { f.string(from: $0.start) })
-        return dic.keys.sorted().map({
-            return ($0, dic[$0]!)
-        })
-    }
-}
-
 struct ChannelRow: View {
     var channel: Channel
     

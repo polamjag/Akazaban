@@ -15,6 +15,7 @@
 		00C743BB240BA79C00681912 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C743B9240BA79C00681912 /* LaunchScreen.storyboard */; };
 		00C743C3240BD94200681912 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C743C2240BD94200681912 /* Channel.swift */; };
 		00C743C5240BD98A00681912 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C743C4240BD98A00681912 /* Program.swift */; };
+		00C743C7240BDBCE00681912 /* ChinachuAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C743C6240BDBCE00681912 /* ChinachuAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		00C743BC240BA79C00681912 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00C743C2240BD94200681912 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		00C743C4240BD98A00681912 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		00C743C6240BDBCE00681912 /* ChinachuAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChinachuAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +65,9 @@
 				00C743AE240BA79B00681912 /* AppDelegate.swift */,
 				00C743B0240BA79B00681912 /* SceneDelegate.swift */,
 				00C743B2240BA79B00681912 /* ContentView.swift */,
-				00C743C4240BD98A00681912 /* Program.swift */,
+				00C743C6240BDBCE00681912 /* ChinachuAPI.swift */,
 				00C743C2240BD94200681912 /* Channel.swift */,
+				00C743C4240BD98A00681912 /* Program.swift */,
 				00C743B4240BA79C00681912 /* Assets.xcassets */,
 				00C743B9240BA79C00681912 /* LaunchScreen.storyboard */,
 				00C743BC240BA79C00681912 /* Info.plist */,
@@ -157,6 +160,7 @@
 				00C743C3240BD94200681912 /* Channel.swift in Sources */,
 				00C743B1240BA79B00681912 /* SceneDelegate.swift in Sources */,
 				00C743B3240BA79B00681912 /* ContentView.swift in Sources */,
+				00C743C7240BDBCE00681912 /* ChinachuAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
