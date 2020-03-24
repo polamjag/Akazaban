@@ -10,10 +10,20 @@ import SwiftUI
 
 struct SettingsView: View {
     @Binding var showModal: Bool
+    @State private var chinachuHost: String = getChinachuHost()
+    @State private var chinachuPort: String = String(getChinachuPort())
     
     var body: some View {
         NavigationView {
             List {
+                Section(header: Text("Chinachu Host and Port")) {
+                    TextField("rasbperrypi.local", text: $chinachuHost, onCommit: {
+                        setChinachuHost(host: self.chinachuHost)
+                    })
+                    TextField("10772", text: $chinachuPort, onCommit: {
+                        setChinachuPort(port: Int(self.chinachuPort))
+                    })
+                }
                 Section(header: Text("Logs")) {
                     NavigationLink(destination: ChinachuLogView(logType: .logTypeWui)) {
                         VStack {
@@ -54,7 +64,7 @@ struct ChinachuLogView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         }.onAppear {
             self.logFetcher.get(logType: self.logType)
-        }
+        }.navigationBarTitle("\(logType.rawValue).log")
     }
 }
 

@@ -9,6 +9,38 @@
 import Foundation
 import UIKit
 
+func setChinachuHost(host: String) {
+    UserDefaults.standard.set(host, forKey: "chinachuHost")
+}
+
+func setChinachuPort(port: Int?) {
+    UserDefaults.standard.set(port ?? 10772, forKey: "chinachuPort")
+}
+
+func getChinachuHost() -> String {
+    let host = UserDefaults.standard.string(forKey: "chinachuHost")
+    return host == nil || host == "" ? "raspberrypi.local" : host!
+}
+
+func getChinachuPort() -> Int {
+    let portNum = UserDefaults.standard.integer(forKey: "chinachuPort")
+    return portNum == 0 ? 10772 : portNum
+}
+
+func getChinachuUrl(path: String, queryItems: [URLQueryItem]?) -> URL {
+    var components = URLComponents()
+    components.host = getChinachuHost()
+    components.port = getChinachuPort()
+    components.scheme = "http"
+    components.path = path
+    if queryItems != nil {
+        components.queryItems = queryItems
+    }
+    components.user = "akari"
+    components.password = "bakuhatsu"
+    return components.url!
+}
+
 struct Channel: Decodable, Identifiable {
     public var id: String
     public var name: String
@@ -39,19 +71,19 @@ struct Channel: Decodable, Identifiable {
 }
 
 enum ProgramCategory: String, Decodable {
-    case anime = "anime"
-    case information = "information"
     case news = "news"
     case sports = "sports"
-    case variety = "variety"
+    case information = "information"
     case drama = "drama"
     case music = "music"
+    case variety = "variety"
     case cinema = "cinema"
-    case etc = "etc"
+    case anime = "anime"
+    case documentary = "documentary"
+    case theater = "theater"
     case hobby = "hobby"
     case welfare = "welfare"
-    case theater = "theater"
-    case documentary = "documentary"
+    case etc = "etc"
 }
 
 struct Program: Decodable, Identifiable {
@@ -101,7 +133,7 @@ public class ScheduleFetcher: ObservableObject {
     }
     
     func load() {
-        let url = URL(string: "http://akari:bakuhatsu@raspberrypi.local:10773/api/schedule.json")!
+        let url = getChinachuUrl(path: "/api/schedule.json", queryItems: [])
         
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             do {
@@ -134,7 +166,7 @@ public class LogFetcher: ObservableObject {
     @Published var logType: ChinachuLogType = .logTypeWui
 
     func get(logType: ChinachuLogType) {
-        let url = URL(string: "http://akari:bakuhatsu@raspberrypi.local:10773/api/log/\(logType.rawValue).txt")!
+        let url = getChinachuUrl(path: "/api/log/\(logType.rawValue).txt", queryItems: [])
         
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             do {
@@ -157,7 +189,14 @@ func openStreamingInVLC(channelId: String) {
     components.host = "x-callback-url"
     components.path = "/stream"
     components.queryItems = [
-        URLQueryItem(name: "url", value: "http://akari:bakuhatsu@raspberrypi.local:10772/api/channel/\(channelId)/watch.m2ts?ext=m2ts&amp;c%3Av=copy&amp;c%3Aa=copy&amp;prefix=http%3A%2F%2Fraspberrypi.local%3A10772%2Fapi%2Fchannel%2F\(channelId)%2F")
+        URLQueryItem(name: "url", value:
+            getChinachuUrl(path: "/api/channel/\(channelId)/watch.m2ts", queryItems: [
+                URLQueryItem(name: "ext", value: "m2ts"),
+                URLQueryItem(name: "c:v", value: "copy"),
+                URLQueryItem(name: "c:a", value: "copy"),
+                URLQueryItem(name: "prefix", value: ""),
+            ]).absoluteString
+        )
     ]
     UIApplication.shared.open(components.url!)
 }
