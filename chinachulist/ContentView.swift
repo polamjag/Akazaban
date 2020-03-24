@@ -16,13 +16,18 @@ struct ContentView: View {
         NavigationView {
             VStack(alignment: .leading) {
                 List {
-                    Section(header: Text("In Live")) {
+                    Section(header: Text("On Live")) {
                         ForEach(fetcher.channels.filter({ $0.currentProgram != nil }), id: \.id) { channel in
                             ChannelRow(channel: channel)
                         }
                     }
-                    Section(header: Text("Not In Live")) {
-                        ForEach(fetcher.channels.filter({ $0.currentProgram == nil }), id: \.id) { channel in
+                    Section(header: Text("Not On Live")) {
+                        ForEach(fetcher.channels.filter({ $0.currentProgram == nil && $0.programs.count > 0 }), id: \.id) { channel in
+                            ChannelRow(channel: channel)
+                        }
+                    }
+                    Section(header: Text("With No Program")) {
+                        ForEach(fetcher.channels.filter({ $0.programs.count == 0 }), id: \.id) { channel in
                             ChannelRow(channel: channel)
                         }
                     }
